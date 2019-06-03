@@ -5,6 +5,15 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-List.create(title:"West Sweden Road Trip", excerpt:"A cool road trip with stops in harbors of the coast")
-List.create(title:"Must have equipment for the outdoor photographer", excerpt:"My selection of gear for modern outdoor photography")
 
+studio = Studio.create(name: "Wildflowers Yoga", description: "Yoga studio in Gainesville, FL")
+
+teacher_brandi = Teacher.create(name: "Brandi")
+
+yoga_klass = Klass.create(name: "Hatha Yoga", description: "Slow flow class", studio: studio, start_time: DateTime.now, end_time: DateTime.now + 1.hour)
+
+student_amy = Student.create(name: "Amy", email: "bryanprz00@gmail.com", phone_number: "9546877137")
+
+yoga_klass.students << student_amy
+yoga_klass.teachers << teacher_brandi
+yoga_klass.save
