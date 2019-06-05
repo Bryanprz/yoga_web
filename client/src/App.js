@@ -2,10 +2,12 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import KlassesListContainer from './components/KlassesListContainer';
+import { ExchangeRates } from './components/ExchangeRates';
 
 function App() {
   return (
     <div className="App">
+      <ExchangeRates />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
