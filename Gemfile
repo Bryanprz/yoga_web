@@ -5,6 +5,8 @@ ruby '2.3.7'
 
 gem 'foreman' 
 gem 'rack-cors'
+gem 'graphql'
+gem 'graphiql-rails'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
 # Use sqlite3 as the database for Active Record
@@ -33,6 +35,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'pry'
+  gem 'pry-stack_explorer'
+  gem 'pry-rails'
 end
 
 group :development do
