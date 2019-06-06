@@ -1,21 +1,16 @@
+# Entry point to API server; "query root"
+
 module Types
   class QueryType < Types::BaseObject
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
-    # TODO: remove me
-    #field :test_field, String, null: false,
-      #description: "An example field added by the generator"
-    #def test_field
-      #"Hello World!"
-    #end
-
-    field :klasses, [KlassType], null: true do
-      description "gets all klasses"
+    field :studio, StudioType, null: true do
+      description "get studio"
+      argument :id, ID, required: true
     end
-
-    def klasses
-      Klass.all
+    def studio(id:)
+      Studio.find(id)
     end
   end
 end

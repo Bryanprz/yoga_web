@@ -3,28 +3,20 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import ApolloClient from 'apollo-boost';
-import { gql } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import App from './App';
+import 'semantic-ui-css/semantic.min.css';
 
+// uri comes from Rails route graphql engine
 const client = new ApolloClient({
-  uri: "https://48p1r2roz4.sse.codesandbox.io"
+  uri: "/graphql"
 });
-
-client.query({ 
-  query: gql`
-    { 
-      rates(currency: "USD") { 
-        currency
-      }
-    }
-  `
-}).then(result => console.log("result: ", result));
 
 ReactDOM.render(
   <ApolloProvider client={ client }>
-    <App /> 
+    <App />
   </ApolloProvider>,
   document.getElementById('root'));
 
