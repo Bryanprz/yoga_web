@@ -4,7 +4,7 @@ import List from './List';
 import NewListForm from './NewListForm';
 import EditListForm from './EditListForm';
 
-class ListsContainer extends Component {
+class ListContainer extends Component {
   constructor(props) {
     super(props);
     this.state = { lists: [], editingListId: null };
@@ -96,4 +96,4 @@ class ListsContainer extends Component {
   }
 }
 
-export default ListsContainer;
+export default ListContainer;
