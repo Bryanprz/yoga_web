@@ -7,7 +7,6 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import App from './App';
 import 'semantic-ui-css/semantic.min.css';
 
 // uri comes from Rails route graphql engine
