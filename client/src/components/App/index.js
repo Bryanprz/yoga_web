@@ -1,12 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
+import logo from '../../logo.svg';
 import './App.css';
 import { 
   BrowserRouter as Router,
   Route,
   Switch
 } from 'react-router-dom';
-import Dashboard from './components/Dashboard';
+import Dashboard from '../Dashboard';
+import ListsContainer from '../ListContainer';
 
 function App() {
   return (
