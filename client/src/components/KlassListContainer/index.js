@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
+import KlassCard from '../KlassCard';
 
 class KlassListContainer extends Component {
   renderKlasses() {
@@ -9,9 +10,10 @@ class KlassListContainer extends Component {
 
     return klasses.map(({ name, description, teachers }) => {
       return (
-        <li>
-          {name} {description} taught by {teachers.map(t => t.name)}
-        </li>
+        <KlassCard 
+          title={ name } 
+          content={ description } 
+          subheader={ teachers.map(t => t.name) } />
       )
     })
   }
@@ -22,7 +24,7 @@ class KlassListContainer extends Component {
 
     return (
       <div>
-        KlassListContainer hi
+        <h2>Today's Classes</h2>
         {this.renderKlasses()}
       </div>
     );
