@@ -5,9 +5,13 @@ import PropTypes from 'prop-types';
 
 class KlassListContainer extends Component {
   renderKlasses() {
-    return this.props.data.studio.klasses.map( klass => {
+    const { klasses } = this.props.data.studio;
+
+    return klasses.map(({ name, description, teachers }) => {
       return (
-        <li>{klass.name}</li>
+        <li>
+          {name} {description} taught by {teachers.map(t => t.name)}
+        </li>
       )
     })
   }
@@ -19,6 +23,7 @@ class KlassListContainer extends Component {
     return (
       <div>
         KlassListContainer hi
+        {this.renderKlasses()}
       </div>
     );
   }
@@ -28,13 +33,20 @@ const query = gql`
 query($id: ID!) {
   studio(id: $id) {
     klasses {
-      id
       name
+      description
+
+      teachers {
+        name
+      }
     }
   }
 }
 `;
 
+// TODO get ID from props
 export default graphql(query, {
   options: props => ({ variables: { id: 1 }})
 })(KlassListContainer);
+
+// TODO add proptypes expect studio id required

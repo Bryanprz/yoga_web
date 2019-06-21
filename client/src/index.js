@@ -5,7 +5,6 @@ import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
-import gql from 'graphql-tag';
 
 import 'semantic-ui-css/semantic.min.css';
 
