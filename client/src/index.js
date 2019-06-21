@@ -5,8 +5,7 @@ import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
-
-import 'semantic-ui-css/semantic.min.css';
+import 'foundation-sites/dist/css/foundation.min.css';
 
 // uri comes from Rails route graphql engine
 const client = new ApolloClient({
