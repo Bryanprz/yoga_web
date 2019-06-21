@@ -10,18 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_03_231215) do
-
-  create_table "items", force: :cascade do |t|
-    t.integer "type"
-    t.string "name"
-    t.text "excerpt"
-    t.text "description"
-    t.string "url"
-    t.integer "upvotes"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+ActiveRecord::Schema.define(version: 2019_06_21_170425) do
 
   create_table "klasses", force: :cascade do |t|
     t.string "name"
@@ -46,26 +35,6 @@ ActiveRecord::Schema.define(version: 2019_06_03_231215) do
     t.integer "teacher_id", null: false
     t.index ["klass_id", "teacher_id"], name: "index_klasses_teachers_on_klass_id_and_teacher_id"
     t.index ["teacher_id", "klass_id"], name: "index_klasses_teachers_on_teacher_id_and_klass_id"
-  end
-
-  create_table "list_items", force: :cascade do |t|
-    t.integer "list_id"
-    t.integer "item_id"
-    t.text "description"
-    t.integer "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["item_id"], name: "index_list_items_on_item_id"
-    t.index ["list_id"], name: "index_list_items_on_list_id"
-  end
-
-  create_table "lists", force: :cascade do |t|
-    t.string "title"
-    t.text "excerpt"
-    t.text "description"
-    t.integer "upvotes"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "students", force: :cascade do |t|
