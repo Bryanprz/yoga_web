@@ -16,6 +16,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
+// TODO find out if these styles can be moved to their own css file
 const useStyles = makeStyles(theme => ({
   card: {
     maxWidth: 345,

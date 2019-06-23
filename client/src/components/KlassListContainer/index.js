@@ -2,33 +2,46 @@ import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
+
+// Components
 import KlassCard from '../KlassCard';
 
-class KlassListContainer extends Component {
-  renderKlasses() {
-    const { klasses } = this.props.data.studio;
+// Material UI
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 
-    return klasses.map(({ name, description, teachers }) => {
-      return (
-        <KlassCard 
-          title={ name } 
-          content={ description } 
-          subheader={ teachers.map(t => t.name) } />
-      )
-    })
+// Material UI Styles Overrides
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+    flexDirection: 'column',
+    alignContent: 'center'
   }
+}));
 
-  render() {
-    if (this.props.data.loading) { return <div>Loading...</div> }
-    console.log(this.props);
+const KlassListContainer = props => {
+  const classes = useStyles();
 
-    return (
-      <div>
+  if (props.data.loading) { return <div>Loading...</div> };
+
+  const { klasses } = props.data.studio;
+
+  return (
+    <div>
+      <Grid container className={classes.root} spacing={7} justify="center" >
         <h2>Today's Classes</h2>
-        {this.renderKlasses()}
-      </div>
-    );
-  }
+        {klasses.map(({ name, description, teachers }) => (
+          <Grid item key={name + teachers}>
+            <KlassCard 
+              title={ name } 
+              content={ description } 
+              subheader={ teachers.map(t => t.name) } />
+          </Grid>
+          )
+        )}
+      </Grid>
+    </div>
+  );
 }
 
 const query = gql`
@@ -37,7 +50,6 @@ query($id: ID!) {
     klasses {
       name
       description
-
       teachers {
         name
       }
