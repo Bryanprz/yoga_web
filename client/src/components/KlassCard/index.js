@@ -19,7 +19,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 // TODO find out if these styles can be moved to their own css file
 const useStyles = makeStyles(theme => ({
   card: {
-    maxWidth: 345,
+    maxWidth: 335,
     borderRadius: 10
   },
   media: {

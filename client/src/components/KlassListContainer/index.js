@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
@@ -14,8 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    flexDirection: 'column',
-    alignContent: 'center'
+    flexDirection: 'column'
   }
 }));
 
@@ -28,7 +27,7 @@ const KlassListContainer = props => {
 
   return (
     <div>
-      <Grid container className={classes.root} spacing={7} justify="center" >
+      <Grid container className={classes.root} spacing={2}>
         <h2>Today's Classes</h2>
         {klasses.map(({ name, description, teachers }) => (
           <Grid item key={name + teachers}>
