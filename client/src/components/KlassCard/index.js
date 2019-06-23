@@ -19,6 +19,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 const useStyles = makeStyles(theme => ({
   card: {
     maxWidth: 345,
+    borderRadius: 10
   },
   media: {
     height: 0,
@@ -37,6 +38,15 @@ const useStyles = makeStyles(theme => ({
   avatar: {
     backgroundColor: red[500],
   },
+  title: {
+    fontSize: '18px',
+  },
+  subheader: {
+    fontSize: '14px'
+  },
+  body2: {
+    fontSize: '1rem'
+  }
 }));
 
 export default function KlassCard({ title, content, subheader = '' }) {
@@ -50,9 +60,13 @@ export default function KlassCard({ title, content, subheader = '' }) {
   return (
     <Card className={classes.card}>
       <CardHeader
+        classes={{
+          title: classes.title,
+          subheader: classes.subheader
+        }}
         avatar={
           <Avatar aria-label="Recipe" className={classes.avatar}>
-            R
+            {title[0]}
           </Avatar>
         }
         action={
@@ -61,7 +75,7 @@ export default function KlassCard({ title, content, subheader = '' }) {
           </IconButton>
         }
         title={ title }
-        subheader={ subheader }
+        subheader={ `with ${subheader}` }
       />
       <CardMedia
         className={classes.media}
@@ -69,7 +83,11 @@ export default function KlassCard({ title, content, subheader = '' }) {
         title="Paella dish"
       />
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Typography 
+          variant="body2" 
+          color="textSecondary" 
+          component="p" 
+          classes={{body2: classes.body2}}>
           { content }
         </Typography>
       </CardContent>
