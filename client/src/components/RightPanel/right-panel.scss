@@ -1,8 +1,4 @@
 .right-panel {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
   height: 100%;
   width: 300px;
   position: fixed;
@@ -11,4 +7,20 @@
   right: 0;
   background-color: #ABCDEF;
   overflow-x: hidden;
+}
+
+.klass-title {
+ color: blue; 
+}
+
+.header {
+  text-align: center;
+  padding-top: 30px;
+}
+
+.student-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
 }

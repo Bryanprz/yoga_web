@@ -16,8 +16,10 @@ const RightPanel = ({ selectedKlass }) => {
   
   return (
     <div className="right-panel">
-      <h3>Students Checking Into { selectedKlass.name }</h3>
-      { renderStudents() }
+      <h3 className="header">Students Checking Into <br /><span className="klass-title">{ selectedKlass.name }</span></h3>
+      <div className="student-list-container">
+        { renderStudents() }
+      </div>
     </div>  
   );
 }
