@@ -1,4 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { selectKlass } from '../../actions';
+
+// Material UI
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -20,7 +24,8 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 const useStyles = makeStyles(theme => ({
   card: {
     maxWidth: 335,
-    borderRadius: 10
+    borderRadius: 10,
+    width: '40vw'
   },
   media: {
     height: 0,
@@ -50,7 +55,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function KlassCard({ title, content, subheader = '' }) {
+const KlassCard = props => {
+  const klass = props.klass;
+  const title = klass.name;
+  const content = klass.description;
+  const subheader = klass.teachers.map(t => t.name);
+
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -59,7 +69,7 @@ export default function KlassCard({ title, content, subheader = '' }) {
   }
 
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} onClick={() => props.selectKlass(klass)}>
       <CardHeader
         classes={{
           title: classes.title,
@@ -140,3 +150,5 @@ export default function KlassCard({ title, content, subheader = '' }) {
     </Card>
   );
 }
+
+export default connect(null, { selectKlass })(KlassCard);

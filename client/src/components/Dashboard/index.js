@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // Components
 import Sidebar from '../Sidebar';
 import KlassListContainer from '../KlassListContainer';
+import RightPanel from '../RightPanel';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,7 +30,7 @@ const Dashboard = props => {
       </Grid>
 
       <Grid container item sm={3}>
-        Stuff
+        <RightPanel />
       </Grid>
     </Grid>
   );

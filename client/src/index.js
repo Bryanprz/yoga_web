@@ -3,10 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
+
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reducers from './reducers';
+
 import 'semantic-ui-css/semantic.min.css';
+
 
 // uri comes from Rails route graphql engine
 const client = new ApolloClient({
@@ -15,7 +21,9 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={ client }>
-    <App />
+    <Provider store={createStore(reducers)}>
+      <App />
+    </Provider>
   </ApolloProvider>,
   document.getElementById('root'));
 

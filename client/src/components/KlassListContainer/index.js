@@ -14,7 +14,8 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    alignItems: 'center'
   }
 }));
 
@@ -26,20 +27,15 @@ const KlassListContainer = props => {
   const { klasses } = props.data.studio;
 
   return (
-    <div>
-      <Grid container className={classes.root} spacing={2}>
-        <h2>Today's Classes</h2>
-        {klasses.map(({ name, description, teachers }) => (
-          <Grid item key={name + teachers}>
-            <KlassCard 
-              title={ name } 
-              content={ description } 
-              subheader={ teachers.map(t => t.name) } />
-          </Grid>
-          )
-        )}
-      </Grid>
-    </div>
+    <Grid container item className={classes.root} spacing={5}>
+      <h2 className="class-list-header">Today's Classes</h2>
+      {klasses.map(klass => (
+        <Grid item key={klass.id}>
+          <KlassCard klass={klass} />
+        </Grid>
+      )
+      )}
+    </Grid>
   );
 }
 
@@ -47,9 +43,13 @@ const query = gql`
 query($id: ID!) {
   studio(id: $id) {
     klasses {
+      id
       name
       description
       teachers {
+        name
+      }
+      students {
         name
       }
     }
