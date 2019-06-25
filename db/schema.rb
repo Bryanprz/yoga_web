@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_21_170425) do
+ActiveRecord::Schema.define(version: 2019_06_25_214640) do
+
+  create_table "klass_rosters", force: :cascade do |t|
+    t.integer "student_id"
+    t.integer "klass_id"
+    t.boolean "checked_in"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["klass_id"], name: "index_klass_rosters_on_klass_id"
+    t.index ["student_id"], name: "index_klass_rosters_on_student_id"
+  end
 
   create_table "klasses", force: :cascade do |t|
     t.string "name"
@@ -21,13 +31,6 @@ ActiveRecord::Schema.define(version: 2019_06_21_170425) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["studio_id"], name: "index_klasses_on_studio_id"
-  end
-
-  create_table "klasses_students", id: false, force: :cascade do |t|
-    t.integer "klass_id", null: false
-    t.integer "student_id", null: false
-    t.index ["klass_id", "student_id"], name: "index_klasses_students_on_klass_id_and_student_id"
-    t.index ["student_id", "klass_id"], name: "index_klasses_students_on_student_id_and_klass_id"
   end
 
   create_table "klasses_teachers", id: false, force: :cascade do |t|

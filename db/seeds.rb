@@ -28,8 +28,13 @@ student_rebbeca = Student.create(name: "Rebbeca", email: "bryanprz00@gmail.com",
 student_andres = Student.create(name: "Andres", email: "bryanprz00@gmail.com", phone_number: "9546877137")
 
 # Yoga Class 1
-yoga_klass.students << student_amy
-yoga_klass.students << student_joy
+roster_hatha_amy = KlassRoster.create
+yoga_klass.klass_roster << roster_hatha_amy
+student_amy.klass_roster << roster_hatha_amy
+
+roster_hatha_joy = KlassRoster.create
+yoga_klass.klass_roster << roster_hatha_joy
+student_joy.klass_roster << roster_hatha_joy
 
 yoga_klass.teachers << teacher_brandi
 yoga_klass.teachers << teacher_amy
@@ -38,8 +43,13 @@ yoga_klass.teachers << teacher_bryan
 yoga_klass.save
 
 # Yoga Class 2
-yoga_klass2.students << student_bobby
-yoga_klass2.students << student_billy
+roster_vinyasa_bobby = KlassRoster.create
+yoga_klass2.klass_roster << roster_vinyasa_bobby
+student_bobby.klass_roster << roster_vinyasa_bobby
+
+roster_vinyasa_billy = KlassRoster.create
+yoga_klass2.klass_roster << roster_vinyasa_billy
+student_billy.klass_roster << roster_vinyasa_billy
 
 yoga_klass2.teachers << teacher_brandi
 yoga_klass2.teachers << teacher_amy
@@ -48,8 +58,13 @@ yoga_klass2.teachers << teacher_bryan
 yoga_klass2.save
 
 # Yoga Class 3
-yoga_klass3.students << student_jeremiah
-yoga_klass3.students << student_jorge
+roster_class_3_jeremiah = KlassRoster.create
+yoga_klass3.klass_roster << roster_class_3_jeremiah
+student_jeremiah.klass_roster << roster_class_3_jeremiah
+
+roster_class_3_jorge = KlassRoster.create
+yoga_klass3.klass_roster << roster_class_3_jorge
+student_jorge.klass_roster << roster_class_3_jorge
 
 yoga_klass3.teachers << teacher_brandi
 yoga_klass3.teachers << teacher_amy
@@ -58,8 +73,13 @@ yoga_klass3.teachers << teacher_bryan
 yoga_klass3.save
 
 # Yoga Class 4
-yoga_klass4.students << student_rebbeca
-yoga_klass4.students << student_andres
+roster_class_4_rebbeca = KlassRoster.create
+yoga_klass4.klass_roster << roster_class_4_rebbeca
+student_rebbeca.klass_roster << roster_class_4_rebbeca
+
+roster_class_4_andres = KlassRoster.create
+yoga_klass4.klass_roster << roster_class_4_andres
+student_andres.klass_roster << roster_class_4_andres
 
 yoga_klass4.teachers << teacher_brandi
 yoga_klass4.teachers << teacher_amy

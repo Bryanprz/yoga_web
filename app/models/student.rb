@@ -1,3 +1,4 @@
 class Student < ApplicationRecord
-  has_and_belongs_to_many :klasses
+  has_many :klass_roster
+  has_many :klasses, through: :klass_roster
 end
