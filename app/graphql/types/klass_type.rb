@@ -7,5 +7,6 @@ module Types
     field :description, String, null: true
     field :teachers, [TeacherType], null: true
     field :students, [StudentType], null: true
+    field :klass_roster, [KlassRosterType], null: true
   end
 end
