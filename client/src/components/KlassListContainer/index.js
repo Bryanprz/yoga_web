@@ -31,7 +31,7 @@ const KlassListContainer = props => {
       <h2 className="class-list-header">Today's Classes</h2>
       {klasses.map(klass => (
         <Grid item key={klass.id}>
-          <KlassCard klass={klass} />
+          <KlassCard klass={klass}/>
         </Grid>
       )
       )}
@@ -49,8 +49,11 @@ query($id: ID!) {
       teachers {
         name
       }
-      students {
-        name
+      klassRoster {
+        checkedIn
+        student {
+          name
+        }
       }
     }
   }

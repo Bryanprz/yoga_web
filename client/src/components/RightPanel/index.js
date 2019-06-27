@@ -5,12 +5,12 @@ import './right-panel.scss';
 
 const RightPanel = ({ selectedKlass }) => {
   function renderStudents() {
-    return selectedKlass.students.map(student => {
-      return <li>{ student.name }</li>
+    return selectedKlass.klassRoster.map(({student, checkedIn}) => {
+      return (
+        <li key={student.name}>{ student.name } has { checkedIn ? "Checked In" : "Not Checked In" }</li>
+      )
     });
   }
-
-  console.log(selectedKlass); 
 
   if (!selectedKlass) { return null };
   
@@ -18,7 +18,9 @@ const RightPanel = ({ selectedKlass }) => {
     <div className="right-panel">
       <h3 className="header">Students Checking Into <br /><span className="klass-title">{ selectedKlass.name }</span></h3>
       <div className="student-list-container">
-        { renderStudents() }
+        <ul>
+          { renderStudents() }
+        </ul>
       </div>
     </div>  
   );

@@ -19,13 +19,15 @@ const Sidebar = props => {
 
   return (
     <div className="sidebar">
-        <Link href="javascript:;" className={classes.link}>Classes</Link>
+      <Link href="/" className={classes.link}>Dashboard</Link>
 
-        <Link href="javascript:;" className={classes.link}>Teachers</Link>
+      <Link href="/classes" className={classes.link}>Classes</Link>
 
-        <Link href="javascript:;" className={classes.link}>Calendar</Link>
+      <Link href="javascript:;" className={classes.link}>Teachers</Link>
 
-        <Link href="javascript:;" className={classes.link}>Students</Link>
+      <Link href="javascript:;" className={classes.link}>Calendar</Link>
+
+      <Link href="javascript:;" className={classes.link}>Students</Link>
     </div>
   );
 }

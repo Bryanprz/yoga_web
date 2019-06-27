@@ -5,7 +5,9 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import KlassListContainer from '../KlassListContainer';
+
+// Components
+import KlassDashboard from '../KlassDashboard';
 import Dashboard from '../Dashboard';
 
 function App() {
@@ -15,7 +17,7 @@ function App() {
         <Route exact path='/' component={Dashboard}/>
         <Route
           path={'/classes'}
-          render={props => <KlassListContainer {...props} klass={{name: 'wildflowers'}} />}
+          render={props => <KlassDashboard {...props} />}
         />
       </Switch>
     </Router>
