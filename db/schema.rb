@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_25_214640) do
+ActiveRecord::Schema.define(version: 2019_06_28_011233) do
 
   create_table "klass_rosters", force: :cascade do |t|
     t.integer "student_id"
@@ -53,6 +53,13 @@ ActiveRecord::Schema.define(version: 2019_06_25_214640) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "studios_teachers", force: :cascade do |t|
+    t.integer "studio_id"
+    t.integer "teacher_id"
+    t.index ["studio_id"], name: "index_studios_teachers_on_studio_id"
+    t.index ["teacher_id"], name: "index_studios_teachers_on_teacher_id"
   end
 
   create_table "teachers", force: :cascade do |t|

@@ -5,6 +5,8 @@ module Types
     field :id, ID, null: false
     field :name, String, null: true
     field :description, String, null: true
+    field :start_time, String, null: true
+    field :end_time, String, null: true
     field :teachers, [TeacherType], null: true
     field :students, [StudentType], null: true
     field :klass_roster, [KlassRosterType], null: true
