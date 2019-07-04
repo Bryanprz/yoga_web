@@ -48,12 +48,20 @@ const KlassDashboard = props => {
         <Sidebar />
       </Grid>
 
-      <Grid item sm={9}>
+      <Grid item sm={9} className="klass-dashboard-content-container">
         <h3>Classes at WildFlowers Yoga Studio</h3>
-        <Button variant="contained" className={classes.button} color="primary" onClick={() => toggleForm(!showForm)}>
+
+        <Button 
+          variant="contained" 
+          className={classes.button} 
+          color="primary" 
+          onClick={() => toggleForm(!showForm)}
+        >
           Add New Class
         </Button>
+
         {showForm ? <NewKlassForm /> : null}
+
         <FullCalendar defaultView="dayGridMonth" plugins={[ dayGridPlugin ]} events={klassEvents} />
       </Grid>
     </Grid>

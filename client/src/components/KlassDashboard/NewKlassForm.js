@@ -41,12 +41,19 @@ const NewKlassForm = props => {
     startTime: '',
     endTime: '',
     teacher: { id: '', name: '' }
-  })
+  });
+  const [successMessage, toggleSuccessMessage] = React.useState({
+    showSuccessMessage: false
+  });
 
   if (props.data.loading) { return <h3>Loading...</h3> };
 
   function renderTeacherMenuItem(teacher) {
     return <MenuItem name="teacher" value={teacher} key={teacher.id}>{ teacher.name }</MenuItem>
+  }
+
+  function renderSuccessMessage() {
+    return <h3 className="success-message">Your class was created successfully and added to the calendar!</h3>
   }
 
   function submitForm(e) {
@@ -68,7 +75,7 @@ const NewKlassForm = props => {
           id: teacher.id
         }
       }
-    })
+    }).then(() => toggleSuccessMessage({ showSuccessMessage: true }));
   }
 
   const handleChange = name => event => {
@@ -79,6 +86,7 @@ const NewKlassForm = props => {
 
   return (
     <form onSubmit={submitForm} className={classes.formControl}>
+      { successMessage.showSuccessMessage ? renderSuccessMessage() : null }
       <TextField 
         name="name" 
         label="Name" 
