@@ -7,9 +7,10 @@ import { graphql } from 'react-apollo';
 // Queries & Mutations
 import fetchKlassesQuery from '../../queries/fetchKlasses';
 
-// Components
+// My Components
 import Sidebar from '../Sidebar';
 import NewKlassForm from './NewKlassForm';
+import KlassModal from '../KlassModal';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -24,6 +25,8 @@ const useStyles = makeStyles(theme => ({
 
 const KlassDashboard = props => {
   const [showForm, toggleForm] = useState(false);
+  const [showKlassModal, toggleModal] = useState(false);
+  const [selectedKlass, selectKlass] = useState({});
   const classes = useStyles();
 
   if (props.data.loading) { return <h3>Loading...</h3> };
@@ -35,11 +38,25 @@ const KlassDashboard = props => {
   // required format for FullCalendar. https://fullcalendar.io/docs/event-parsing
   function createCalendarEvent(klass) {
     let event = {
+      id: klass.id,
       title: klass.name,
+      description: klass.description,
       start: new Date(klass.startTime),
-      end: new Date(klass.endTime)
+      end: new Date(klass.endTime),
+      teachers: klass.teachers.map(t => t.name),
+      students: klass.students.map(s => s.name)
     }
     klassEvents.push(event);
+  }
+
+  function klassClick({event}) {
+    const selectedKlass = klassEvents.find( el => el.id === event.id);
+    selectKlass({ selectedKlass });
+    toggleModal(true);
+  }
+
+  function closeModal() {
+    toggleModal(false);
   }
 
   return (
@@ -50,6 +67,7 @@ const KlassDashboard = props => {
 
       <Grid item sm={9} className="klass-dashboard-content-container">
         <h3>Classes at WildFlowers Yoga Studio</h3>
+        <p>Click on any class in the calendar to see details</p> 
 
         <Button 
           variant="contained" 
@@ -61,8 +79,18 @@ const KlassDashboard = props => {
         </Button>
 
         {showForm ? <NewKlassForm /> : null}
+        {showKlassModal ? 
+          <KlassModal 
+            klass={selectedKlass} 
+            onClose={closeModal} 
+            open={showKlassModal}
+          /> : null}
 
-        <FullCalendar defaultView="dayGridMonth" plugins={[ dayGridPlugin ]} events={klassEvents} />
+        <FullCalendar 
+          plugins={[ dayGridPlugin ]} 
+          events={klassEvents} 
+          eventClick={klassClick}
+        />
       </Grid>
     </Grid>
   );
