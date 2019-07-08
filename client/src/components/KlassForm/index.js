@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const NewKlassForm = props => {
+const KlassForm = props => {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     name: '',
@@ -137,4 +137,4 @@ const NewKlassForm = props => {
 export default compose(
   graphql(fetchTeachersQuery, { options: props => ({variables: { id: 1 }}) }),
   graphql(addKlassMutation),
-)(NewKlassForm);
+)(KlassForm);

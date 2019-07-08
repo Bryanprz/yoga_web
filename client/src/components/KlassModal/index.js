@@ -9,6 +9,9 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 
+// My Components
+import KlassForm from '../KlassForm';
+
 const styles = theme => ({
   root: {
     margin: 0,
@@ -52,6 +55,7 @@ const DialogActions = withStyles(theme => ({
 class KlassModal extends React.Component {
   state = {
     open: true,
+    showForm: false
   };
 
   render() {
@@ -75,8 +79,12 @@ class KlassModal extends React.Component {
             { klass.title }
           </DialogTitle>
           <DialogContent dividers>
+            {this.state.showForm ? <KlassForm /> : null}
             <Typography gutterBottom>
               { klass.description }
+            </Typography>
+            <Typography gutterBottom>
+              start and end time go here
             </Typography>
             <Typography gutterBottom>
               Teachers: { teachersEmpty ? "No teacher registered" : teachers }
@@ -86,8 +94,8 @@ class KlassModal extends React.Component {
             </Typography>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.onClose} color="primary">
-              Save changes
+            <Button onClick={() => this.setState({showForm: true})} color="primary">
+              Edit this class
             </Button>
           </DialogActions>
         </Dialog>

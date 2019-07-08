@@ -9,7 +9,7 @@ import fetchKlassesQuery from '../../queries/fetchKlasses';
 
 // My Components
 import Sidebar from '../Sidebar';
-import NewKlassForm from './NewKlassForm';
+import KlassForm from '../KlassForm';
 import KlassModal from '../KlassModal';
 
 // Material UI
@@ -78,7 +78,7 @@ const KlassDashboard = props => {
           Add New Class
         </Button>
 
-        {showForm ? <NewKlassForm /> : null}
+        {showForm ? <KlassForm /> : null}
         {showKlassModal ? 
           <KlassModal 
             klass={selectedKlass} 
