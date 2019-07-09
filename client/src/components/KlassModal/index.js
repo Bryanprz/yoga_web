@@ -9,13 +9,15 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 
 // My Components
 import EditKlassForm from '../KlassForm/EditKlassForm';
 
 // Queries & Mutations
 import fetchKlassQuery from '../../queries/fetchKlass';
+import fetchKlassesQuery from '../../queries/fetchKlasses';
+import deleteKlassMutation from '../../mutations/deleteKlass';
 
 const styles = theme => ({
   root: {
@@ -60,8 +62,32 @@ const DialogActions = withStyles(theme => ({
 class KlassModal extends React.Component {
   state = {
     open: true,
-    showForm: false
+    showForm: false,
+    showDeleteSuccess: false,
+    showDeleteConfirmation: false
   };
+
+  renderDeleteConfirmation() {
+    return (
+      <DialogActions>
+        <Typography variant="subtitle1">Are you sure you want to delete this class?</Typography>
+        <Button variant="contained" color="primary" onClick={this.deleteKlass.bind(this)}>
+          Yes, delete this class
+        </Button>
+        <Button variant="contained" color="secondary">
+          No, keep this class
+        </Button>
+      </DialogActions>
+    )
+  }
+
+  deleteKlass() {
+    // TODO make studio ID variable not hard coded
+    this.props.mutate({
+      variables: { id: this.props.klassId },
+      refetchQueries: [{ query: fetchKlassesQuery, variables: { id: 1 } }]
+    }).then(() => this.setState({ showDeleteSuccess: true, showDeleteConfirmation: false }));
+  }
 
   render() {
     if (this.props.data.loading) { return null };
@@ -90,6 +116,8 @@ class KlassModal extends React.Component {
             { klass.name }
           </DialogTitle>
           <DialogContent dividers>
+            {this.state.showDeleteConfirmation ? this.renderDeleteConfirmation() : null}
+            {this.state.showDeleteSuccess ? "This class has been deleted." : null}
             {this.state.showForm ? <EditKlassForm id={klass.id} /> : null}
             <Typography gutterBottom>
               { klass.description }
@@ -109,6 +137,9 @@ class KlassModal extends React.Component {
             <Button onClick={() => this.setState({showForm: true})} color="primary">
               Edit this class
             </Button>
+            <Button onClick={() => this.setState({showDeleteConfirmation: true})} color="primary">
+              Delete this class
+            </Button>
           </DialogActions>
         </Dialog>
       </div>
@@ -120,4 +151,7 @@ KlassModal.propTypes = {
   klassId: PropTypes.string.isRequired
 }
 
-export default graphql(fetchKlassQuery, { options: props => ({variables: { id: props.klassId }}) })(KlassModal);
+export default compose(
+  graphql(fetchKlassQuery, { options: props => ({variables: { id: props.klassId }}) }),
+  graphql(deleteKlassMutation)
+)(KlassModal);

@@ -32,7 +32,7 @@ module Types
     end
 
     field :delete_klass, Boolean, null: false, description: "Delete a class." do
-      argument :id, ID, required: true
+      argument :id, String, required: true
     end
 
     def delete_klass(id:)
