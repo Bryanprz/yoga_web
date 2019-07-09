@@ -6,8 +6,8 @@ class Types::KlassInputType < GraphQL::Schema::InputObject
     argument :id, ID, required: false
     argument :name, String, required: false
     argument :description, String, required: false
-    argument :start_time, Types::DateTimeType, required: false
-    argument :end_time, Types::DateTimeType, required: false
+    argument :start_time, String, required: false
+    argument :end_time, String, required: false
     argument :studio_id, ID, required: false
 end
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,9 +9,13 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
+import { graphql } from 'react-apollo';
 
 // My Components
-import KlassForm from '../KlassForm';
+import EditKlassForm from '../KlassForm/EditKlassForm';
+
+// Queries & Mutations
+import fetchKlassQuery from '../../queries/fetchKlass';
 
 const styles = theme => ({
   root: {
@@ -59,14 +64,20 @@ class KlassModal extends React.Component {
   };
 
   render() {
-    const klass = this.props.klass.selectedKlass;
+    if (this.props.data.loading) { return null };
 
-    const teachers = klass.teachers.join(", ");
-    const teachersEmpty = klass.teachers.every(t => t === '');
+    const klass = this.props.data.klass;
 
-    const students = klass.students.join(", ");
-    const studentsEmpty = klass.students.every(s => s === '');
-    
+    let teachers = [];
+    klass.teachers.forEach(teacher => teachers.push(teacher.name));
+    const teachersEmpty = teachers.every(t => t === '');
+    teachers = teachers.join(', ');
+
+    let students = [];
+    klass.students.forEach(student => students.push(student.name));
+    const studentsEmpty = students.every(s => s === '');
+    students = students.join(', ');
+
     return (
       <div>
         <Dialog
@@ -76,15 +87,16 @@ class KlassModal extends React.Component {
           fullWidth={true}
         >
           <DialogTitle id="customized-dialog-title" onClose={this.props.onClose}>
-            { klass.title }
+            { klass.name }
           </DialogTitle>
           <DialogContent dividers>
-            {this.state.showForm ? <KlassForm /> : null}
+            {this.state.showForm ? <EditKlassForm id={klass.id} /> : null}
             <Typography gutterBottom>
               { klass.description }
             </Typography>
             <Typography gutterBottom>
-              start and end time go here
+              Start Time: { klass.startTime }<br />
+              End Time: { klass.endTime }
             </Typography>
             <Typography gutterBottom>
               Teachers: { teachersEmpty ? "No teacher registered" : teachers }
@@ -104,4 +116,8 @@ class KlassModal extends React.Component {
   }
 }
 
-export default KlassModal;
+KlassModal.propTypes = {
+  klassId: PropTypes.string.isRequired
+}
+
+export default graphql(fetchKlassQuery, { options: props => ({variables: { id: props.klassId }}) })(KlassModal);

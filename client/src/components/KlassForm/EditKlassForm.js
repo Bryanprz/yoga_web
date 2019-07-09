@@ -1,10 +1,11 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
+import PropTypes from 'prop-types';
 
 // Queries & Mutations
 import fetchTeachersQuery from '../../queries/fetchTeachers';
 import fetchKlassesQuery from '../../queries/fetchKlasses';
-import addKlassMutation from '../../mutations/createKlass';
+import editKlassMutation from '../../mutations/editKlass';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -33,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const KlassForm = props => {
+const EditKlassForm = props => {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     name: '',
@@ -53,29 +54,51 @@ const KlassForm = props => {
   }
 
   function renderSuccessMessage() {
-    return <h3 className="success-message">Your class was created successfully and added to the calendar!</h3>
+    return <h3 className="success-message">Nice work. Your changes are live.</h3>
   }
 
   function submitForm(e) {
     e.preventDefault();
     const { name, description, startTime, endTime, teacher } = values;
 
-    props.mutate({
-      refetchQueries: [{ query: fetchKlassesQuery, variables: { id: 1 } }],
-      variables: {
-        klass: {
-          name,
-          description,
-          startTime,
-          endTime,
-          studioId: '1'
+    // TODO DRY up this conditional
+    if ( teacher.id !== '' ) {
+      props.mutate({
+        variables: {
+          klass: {
+            id: props.id,
+            name,
+            description,
+            startTime,
+            endTime
+          },
+          teacher: {
+            id: teacher.id,
+            name: teacher.name
+          }
         },
-        teacher: {
-          name: teacher.name,
-          id: teacher.id
-        }
-      }
-    }).then(() => toggleSuccessMessage({ showSuccessMessage: true }));
+        refetchQueries: [
+          { query: fetchKlassesQuery, variables: { id: 1 } }, 
+          { query: fetchTeachersQuery, variables: { id: 1 } }
+        ]
+      }).then(() => toggleSuccessMessage({ showSuccessMessage: true }));
+    } else {
+      props.mutate({
+        variables: {
+          klass: {
+            id: props.id,
+            name,
+            description,
+            startTime,
+            endTime
+          }
+        },
+        refetchQueries: [
+          { query: fetchKlassesQuery, variables: { id: 1 } }, 
+          { query: fetchTeachersQuery, variables: { id: 1 } }
+        ]
+      }).then(() => toggleSuccessMessage({ showSuccessMessage: true }));
+    };
   }
 
   const handleChange = name => event => {
@@ -84,6 +107,7 @@ const KlassForm = props => {
 
   var teachers = props.data.studio.teachers;
 
+  // TODO finish mutating teacher correctly
   return (
     <form onSubmit={submitForm} className={classes.formControl}>
       { successMessage.showSuccessMessage ? renderSuccessMessage() : null }
@@ -128,13 +152,17 @@ const KlassForm = props => {
         InputLabelProps={{ shrink: true }} 
       />
       <Button variant="contained" className={classes.button} type="submit">
-        Create New Class
+        Update Class
       </Button>
     </form>
   );
 }
+
+EditKlassForm.propTypes = {
+  id: PropTypes.string.isRequired
+}
  
 export default compose(
   graphql(fetchTeachersQuery, { options: props => ({variables: { id: 1 }}) }),
-  graphql(addKlassMutation),
-)(KlassForm);
+  graphql(editKlassMutation),
+)(EditKlassForm);
