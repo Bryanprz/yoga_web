@@ -57,9 +57,23 @@ const EditKlassForm = props => {
     return <h3 className="success-message">Nice work. Your changes are live.</h3>
   }
 
+  let klassFields = { 'klass': {} };
+  function buildKlassFields(value, key, map) {
+    if (value !== '') {
+      klassFields['klass'][key] = value;
+    }
+  }
+
   function submitForm(e) {
     e.preventDefault();
     const { name, description, startTime, endTime, teacher } = values;
+
+    let map = new Map();
+    map.set('name', name);
+    map.set('description', description);
+    map.set('startTime', startTime);
+    map.set('endTime', endTime);
+    map.forEach(buildKlassFields)
 
     // TODO DRY up this conditional
     if ( teacher.id !== '' ) {
@@ -67,10 +81,10 @@ const EditKlassForm = props => {
         variables: {
           klass: {
             id: props.id,
-            name,
-            description,
-            startTime,
-            endTime
+            name: klassFields['klass']['name'],
+            description: klassFields['klass']['description'],
+            startTime: klassFields['klass']['startTime'],
+            endTime: klassFields['klass']['endTime']
           },
           teacher: {
             id: teacher.id,
@@ -87,10 +101,10 @@ const EditKlassForm = props => {
         variables: {
           klass: {
             id: props.id,
-            name,
-            description,
-            startTime,
-            endTime
+            name: klassFields['klass']['name'],
+            description: klassFields['klass']['description'],
+            startTime: klassFields['klass']['startTime'],
+            endTime: klassFields['klass']['endTime']
           }
         },
         refetchQueries: [

@@ -18,8 +18,11 @@ module Types
     end
 
     def update_klass(klass:, teacher:)
-      existing = Klass.where(id: klass[:id]).first
-      teacher = Teacher.where(id: teacher.try([:id])).first
+      teacher_id = teacher.to_h.blank? ? nil : teacher.to_h[:id]
+      klass_id = klass.to_h.blank? ? nil : klass.to_h[:id]
+
+      existing = Klass.where(id: klass_id).first
+      teacher = Teacher.where(id: teacher_id).first
 
       unless existing.teachers.map(&:id).include?(teacher.try(:id)) or teacher.nil?
         existing.teachers << teacher
