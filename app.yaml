@@ -2,5 +2,4 @@ runtime: ruby
 env: flex
 entrypoint: bundle exec rails server Puma -p $PORT
 env_variables:
-  PORT: "3001"
   RAILS_MASTER_KEY: 72c937772da322d350f59c29ab730a08
