@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "yogini",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:3001",
@@ -45,5 +45,10 @@
   },
   "devDependencies": {
     "eslint-plugin-react-hooks": "^1.6.1"
-  }
+  },
+  "description": "Booking software for yoga studios",
+  "main": "index.js",
+  "repository": "https://github.com/Bryanprz/yoga_web",
+  "author": "Bryan Perez",
+  "license": "MIT"
 }
