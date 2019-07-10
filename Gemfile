@@ -8,7 +8,6 @@ gem 'graphiql-rails'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
  #Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -36,6 +35,7 @@ group :development, :test do
   gem 'pry'
   gem 'pry-rails'
   gem 'pry-stack_explorer'
+  gem 'sqlite3'
 end
 
 group :development do
