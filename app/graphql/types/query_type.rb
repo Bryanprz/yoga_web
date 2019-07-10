@@ -21,5 +21,10 @@ module Types
       Klass.find(id)
     end
 
+    field :current_user, Types::UserType, null: true, description: "The currently logged in user"
+    def current_user
+      context[:current_user]
+    end
+
   end
 end

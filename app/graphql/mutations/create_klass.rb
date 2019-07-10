@@ -17,4 +17,7 @@ class Mutations::CreateKlass < GraphQL::Schema::Mutation
     klass
   end
 
+  def self.accessible?(context)
+    context[:current_user]&.is_admin?
+  end
 end

@@ -5,3 +5,10 @@ export const selectKlass = klass => {
     payload: klass
   };
 };
+
+export const authorizeUser = user => {
+  return {
+    type: 'AUTHORIZE_USER',
+    payload: user
+  }
+};

@@ -23,7 +23,7 @@ const Sidebar = props => {
 
       <Link href="/classes" className={classes.link}>Classes</Link>
 
-      <Link href="javascript:;" className={classes.link}>Teachers</Link>
+      <Link href="/teachers" className={classes.link}>Teachers</Link>
 
       <Link href="javascript:;" className={classes.link}>Calendar</Link>
 

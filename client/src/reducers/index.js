@@ -8,6 +8,15 @@ const selectedKlassReducer = (selectedKlass = null, action) => {
   return selectedKlass;
 };
 
+const currentUserReducer = (user = null, action) => {
+  if (action.type === 'AUTHORIZE_USER') {
+    return action.payload;
+  }
+
+  return user;
+};
+
 export default combineReducers({
-  selectedKlass: selectedKlassReducer
+  selectedKlass: selectedKlassReducer,
+  currentUser: currentUserReducer
 });

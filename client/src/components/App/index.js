@@ -8,16 +8,23 @@ import {
 
 // Components
 import KlassDashboard from '../KlassDashboard';
+import TeacherDashboard from '../TeacherDashboard';
 import Dashboard from '../Dashboard';
+import LoginPage from '../LoginPage';
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path='/' component={Dashboard}/>
+        <Route exact path='/' component={LoginPage}/>
+        <Route exact path='/dashboard' component={Dashboard}/>
         <Route
           path={'/classes'}
           render={props => <KlassDashboard {...props} />}
+        />
+        <Route
+          path={'/teachers'}
+          render={props => <TeacherDashboard {...props} />}
         />
       </Switch>
     </Router>
