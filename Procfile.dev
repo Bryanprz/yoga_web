@@ -1,4 +1,2 @@
-/*not working*/
-
-web: cd client && PORT=3000 npm start
-api: PORT=3001 && bundle exec rails s
+frontend: PORT=3000 cd client/ && npm start
+backend: PORT=3001 bundle exec rails s
