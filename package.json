@@ -1,7 +1,8 @@
 {
   "name": "yogini",
   "engines": {
-    "yarn": "1.17.0"
+    "node": ">= 8.9.0",
+    "npm": ">= 6.9.9"
   },
   "scripts": {
     "build": "yarn --cwd client install && yarn --cwd client build",
