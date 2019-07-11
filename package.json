@@ -13,10 +13,10 @@
     "@fullcalendar/react": "^4.2.0",
     "apollo-client": "^2.6.3",
     "cssesc": "^3.0.0",
+    "fullcalendar": "^3.10.0",
     "node-sass": "^4.12.0",
     "prop-types": "^15.7.2",
     "tern": "^0.24.0"
   },
   "devDependencies": {}
 }
-
