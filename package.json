@@ -1,6 +1,7 @@
 {
   "name": "yogini",
   "engines": {
+    "node": "12.6.0",
     "yarn": "1.17.0"
   },
   "scripts": {
@@ -15,6 +16,7 @@
     "fullcalendar": "^3.10.0",
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
+    "node": "^12.6.0",
     "node-sass": "^4.12.0",
     "prop-types": "^15.7.2",
     "tern": "^0.24.0"
