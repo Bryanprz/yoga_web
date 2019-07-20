@@ -11,12 +11,14 @@ import KlassDashboard from '../KlassDashboard';
 import TeacherDashboard from '../TeacherDashboard';
 import Dashboard from '../Dashboard';
 import LoginPage from '../LoginPage';
+import BryanComponent from '../BryanComponent';
 
 function App() {
   return (
     <Router>
       <Switch>
         <Route exact path='/' component={LoginPage}/>
+        <Route exact path='/bryan' component={BryanComponent}/>
         <Route exact path='/dashboard' component={Dashboard}/>
         <Route
           path={'/classes'}
