@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import './right-panel.scss';
+import './reception.scss';
 
-const RightPanel = ({ selectedKlass }) => {
+const Reception = ({ selectedKlass }) => {
   function renderStudents() {
     return selectedKlass.klassRoster.map(({student, checkedIn}) => {
       return (
@@ -15,7 +15,7 @@ const RightPanel = ({ selectedKlass }) => {
   if (!selectedKlass) { return null };
   
   return (
-    <div className="right-panel">
+    <div className="reception">
       <h3 className="header">Students Checking Into <br /><span className="klass-title">{ selectedKlass.name }</span></h3>
       <div className="student-list-container">
         <ul>
@@ -28,4 +28,4 @@ const RightPanel = ({ selectedKlass }) => {
 
 const mapStateToProps = ({ selectedKlass }) => { return { selectedKlass } };
 
-export default connect(mapStateToProps)(RightPanel);
+export default connect(mapStateToProps)(Reception);
