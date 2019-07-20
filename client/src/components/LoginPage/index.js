@@ -65,6 +65,7 @@ const LoginPage = props => {
 
   return (
     <form className={classes.container} noValidate autoComplete="off">
+      Please enter your credentials
       <TextField
         id="email"
         label="Email"
