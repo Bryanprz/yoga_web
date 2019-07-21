@@ -3,7 +3,7 @@ import { graphql, compose } from 'react-apollo';
 import PropTypes from 'prop-types';
 
 // Queries & Mutations
-import fetchTeachersQuery from '../../queries/fetchTeachers';
+import fetchTeachersQuery from '../../queries/fetchTeachersStudents';
 import fetchKlassesQuery from '../../queries/fetchKlasses';
 import editKlassMutation from '../../mutations/editKlass';
 

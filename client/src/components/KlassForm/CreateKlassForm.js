@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo';
 
 // Queries & Mutations
-import fetchTeachersQuery from '../../queries/fetchTeachers';
+import fetchTeachersStudents from '../../queries/fetchTeachersStudents';
 import fetchKlassesQuery from '../../queries/fetchKlasses';
 import addKlassMutation from '../../mutations/createKlass';
 
@@ -40,7 +40,8 @@ const CreateKlassForm = props => {
     description: '',
     startTime: '',
     endTime: '',
-    teacher: { id: '', name: '' }
+    teacher: { id: '', name: '' },
+    students: []
   });
   const [successMessage, toggleSuccessMessage] = React.useState({
     showSuccessMessage: false
@@ -50,6 +51,10 @@ const CreateKlassForm = props => {
 
   function renderTeacherMenuItem(teacher) {
     return <MenuItem name="teacher" value={teacher} key={teacher.id}>{ teacher.name }</MenuItem>
+  }
+
+  function renderStudentMenuItem(student) {
+    return <MenuItem name="student" value={student} key={student.id}>{ student.name }</MenuItem>
   }
 
   function renderSuccessMessage() {
@@ -83,6 +88,7 @@ const CreateKlassForm = props => {
   }
 
   var teachers = props.data.studio.teachers;
+  var students = props.data.studio.students;
 
   return (
     <form onSubmit={submitForm} className={classes.formControl}>
@@ -102,6 +108,13 @@ const CreateKlassForm = props => {
         value={values.description}
         onChange={handleChange('description')}
       />
+
+      <FormControl className={classes.formControl}>
+        <InputLabel>Students</InputLabel>
+        <Select value={values.students} onChange={handleChange('students')}>
+          {students.map(student => renderStudentMenuItem(student))}
+        </Select>
+      </FormControl>
 
       <FormControl className={classes.formControl}>
         <InputLabel>Teacher(s)</InputLabel>
@@ -135,6 +148,6 @@ const CreateKlassForm = props => {
 }
  
 export default compose(
-  graphql(fetchTeachersQuery, { options: props => ({variables: { id: 1 }}) }),
+  graphql(fetchTeachersStudents, { options: props => ({variables: { id: 1 }}) }),
   graphql(addKlassMutation),
 )(CreateKlassForm);

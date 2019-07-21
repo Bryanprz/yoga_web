@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo';
 import PropTypes from 'prop-types';
 
 // Queries
-import fetchTeachersQuery from '../../queries/fetchTeachers';
+import fetchTeachersQuery from '../../queries/fetchTeachersStudents';
 
 const TeacherDashboard = props => {
   console.log(props);

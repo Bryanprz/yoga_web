@@ -7,6 +7,10 @@ export default gql`
         id
         name
       }
+      students {
+        id
+        name
+      }
     }
   }
 `;
