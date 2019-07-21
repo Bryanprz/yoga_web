@@ -14,8 +14,15 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import Chip from '@material-ui/core/Chip';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
   button: {
     margin: theme.spacing(1)
   },
@@ -26,10 +33,17 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: 20
   },
   formControl: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     width: 400,
     paddingBottom: 20,
-    marginLeft: 'auto',
-    marginRight: 'auto'
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: 2,
   }
 }));
 
@@ -40,7 +54,7 @@ const CreateKlassForm = props => {
     description: '',
     startTime: '',
     endTime: '',
-    teacher: { id: '', name: '' },
+    teacher: [],
     students: []
   });
   const [successMessage, toggleSuccessMessage] = React.useState({
@@ -91,7 +105,7 @@ const CreateKlassForm = props => {
   var students = props.data.studio.students;
 
   return (
-    <form onSubmit={submitForm} className={classes.formControl}>
+    <form onSubmit={submitForm} className={classes.root}>
       { successMessage.showSuccessMessage ? renderSuccessMessage() : null }
       <TextField 
         name="name" 
@@ -111,15 +125,35 @@ const CreateKlassForm = props => {
 
       <FormControl className={classes.formControl}>
         <InputLabel>Students</InputLabel>
-        <Select value={values.students} onChange={handleChange('students')}>
+        <Select
+          multiple
+          value={values.students}
+          onChange={handleChange('students')}
+          renderValue={selected => (
+            <div className={classes.chips}>
+              {selected.map(student => (
+                <Chip key={student.id} label={student.name} className={classes.chip} />
+              ))}
+            </div>
+          )}>
           {students.map(student => renderStudentMenuItem(student))}
         </Select>
       </FormControl>
 
       <FormControl className={classes.formControl}>
         <InputLabel>Teacher(s)</InputLabel>
-        <Select value={values.teacher} onChange={handleChange('teacher')}>
-          {teachers.map(teacher => renderTeacherMenuItem(teacher))}
+        <Select 
+          multiple
+          value={values.teacher} 
+          onChange={handleChange('teacher')}
+          renderValue={selected => (
+            <div className={classes.chips}>
+              {selected.map(teacher => (
+                <Chip key={teacher.id} label={teacher.name} className={classes.chip} />
+              ))}
+            </div>
+          )}>
+            {teachers.map(teacher => renderTeacherMenuItem(teacher))}
         </Select>
       </FormControl>
 
