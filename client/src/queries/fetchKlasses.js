@@ -12,8 +12,12 @@ export default gql`
         teachers {
           name
         }
-        students {
-          name
+        klassRoster {
+          checkedIn
+          student {
+            id
+            name
+          }
         }
       }
     }
