@@ -26,5 +26,16 @@ module Types
       context[:current_user]
     end
 
+    field :klass_roster, [Types::KlassRosterType], null: false do
+      description "See all students signed up for a class and who's checked in."
+      argument :klass_id, ID, required: true
+      argument :student_id, ID, required: false
+    end
+    def klass_roster(klass_id:, student_id:)
+      klass = Klass.find(klass_id)
+      return klass.klass_roster.where(student_id: student_id) if student_id
+      return klass.klass_roster
+    end
+
   end
 end

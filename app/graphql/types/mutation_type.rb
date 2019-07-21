@@ -56,5 +56,23 @@ module Types
       true
     end
 
+    field :check_in_student, Boolean, null: false do
+      argument :student_id, ID, required: false
+      argument :klass_id, ID, required: true
+    end
+    def check_in_student(student_id:, klass_id:)
+      if student_id
+        Klass.find(klass_id).klass_roster.each do |roster|
+          if roster.student_id == student_id.to_i
+            roster.update_attribute :checked_in, true
+            return true
+          end
+        end
+      else
+        require 'pry'; binding.pry
+        # setup for creating new student from this mutation
+      end
+    end
+
   end
 end
