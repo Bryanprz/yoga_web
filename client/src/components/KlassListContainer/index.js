@@ -52,6 +52,7 @@ query($id: ID!) {
       klassRoster {
         checkedIn
         student {
+          id
           name
         }
       }
