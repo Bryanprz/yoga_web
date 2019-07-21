@@ -1,7 +1,9 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
+
+// Queries & Mutations
+import fetchKlasses from '../../queries/fetchKlasses';
 
 // Components
 import KlassCard from '../KlassCard';
@@ -39,30 +41,8 @@ const KlassListContainer = props => {
   );
 }
 
-const query = gql`
-query($id: ID!) {
-  studio(id: $id) {
-    klasses {
-      id
-      name
-      description
-      teachers {
-        name
-      }
-      klassRoster {
-        checkedIn
-        student {
-          id
-          name
-        }
-      }
-    }
-  }
-}
-`;
-
 // TODO get ID from props
-export default graphql(query, {
+export default graphql(fetchKlasses, {
   options: props => ({ variables: { id: 1 }})
 })(KlassListContainer);
 

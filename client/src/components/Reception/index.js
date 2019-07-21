@@ -7,10 +7,10 @@ import './reception.scss';
 
 const Reception = ({ selectedKlass }) => {
   function renderStudents() {
-    return selectedKlass.klassRoster.map(({student}) => {
+    return selectedKlass.klassRoster.map(({student, checkedIn}) => {
       return (
         <Grid item xs key={student.name}>
-          <StudentCard student={student} klassId={selectedKlass.id} />
+          <StudentCard student={student} klassId={selectedKlass.id} checkedIn={checkedIn} />
         </Grid>
       )
     });

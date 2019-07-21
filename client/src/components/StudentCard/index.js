@@ -25,18 +25,16 @@ const useStyles = makeStyles({
   }
 });
 
-const StudentCard = ({student, klassId, mutate, data}) => {
+const StudentCard = ({student, klassId, checkedIn, mutate, data}) => {
   const classes = useStyles();
-  var cardBgColor = classes.notCheckedInBg;
-  
-  if (!data.loading) { 
-    const activeStudent = data.klassRoster.filter(roster => roster.student.id === student.id).first;
-    console.log('activeStudent: ', activeStudent);
-    //var checkedIn = data.klassRoster.first.checkedIn;
-    //cardBgColor = checkedIn ? classes.checkedInBg : classes.notCheckedInBg;
-  }
-  const checkedIn = true;
+  var cardBgColor = checkedIn ? classes.checkedInBg : classes.notCheckedInBg; // initial checkin from props on first load
 
+  if (!data.loading && data.klassRoster) {
+    // updated checkin from query
+    const updatedCheckIn = data.klassRoster[0].checkedIn;
+    cardBgColor = updatedCheckIn ? classes.checkedInBg : classes.notCheckedInBg;
+  }
+  
   // popover
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -52,7 +50,7 @@ const StudentCard = ({student, klassId, mutate, data}) => {
 
   function checkStudentIn(e) {
     mutate({
-      refetchQueries: [{ query: fetchKlassRoster, variables: { klassId, student_id: student.id }}],
+      refetchQueries: [{ query: fetchKlassRoster, variables: { klassId, studentId: student.id }}],
       variables: { studentId: student.id, klassId }
     }).then(() => console.log('done'));
   }
@@ -96,7 +94,7 @@ const StudentCard = ({student, klassId, mutate, data}) => {
 export default compose(
   graphql(checkInStudent),
   graphql(fetchKlassRoster, { options: props => ({
-      variables: { klassId: props.klassId, studentId: props.student.id }
-    }) 
+    variables: { klassId: props.klassId, studentId: props.student.id }
+    })
   })
 )(StudentCard);
