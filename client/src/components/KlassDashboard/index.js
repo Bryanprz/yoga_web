@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import './klass-dashboard.scss';
+import { connect } from 'react-redux';
+import { graphql, compose } from 'react-apollo';
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import { graphql } from 'react-apollo';
+import './klass-dashboard.scss';
+
+// ActionCreators
+import { selectKlass } from '../../actions';
 
 // Queries & Mutations
 import fetchKlassesQuery from '../../queries/fetchKlasses';
@@ -26,7 +30,6 @@ const useStyles = makeStyles(theme => ({
 const KlassDashboard = props => {
   const [showForm, toggleForm] = useState(false);
   const [showKlassModal, toggleModal] = useState(false);
-  const [selectedKlass, selectKlass] = useState({});
   const classes = useStyles();
 
   if (props.data.loading || !props.data.studio) { return <h3>Loading...</h3> };
@@ -43,16 +46,31 @@ const KlassDashboard = props => {
       description: klass.description,
       start: new Date(klass.startTime),
       end: new Date(klass.endTime),
-      teachers: klass.teachers.map(t => t.name),
-      students: klass.students.map(s => s.name)
+      teachers: klass.teachers.map(t => ({ id: t.id, name: t.name })),
+      students: klass.students.map(s => ({ id: s.id, name: s.name }))
     }
     klassEvents.push(event);
   }
 
   function klassClick({event}) {
     const selectedKlass = klassEvents.find( el => el.id === event.id);
-    selectKlass({ selectedKlass });
+    reFormatKlass(selectedKlass);
+
+    props.selectKlass(selectedKlass); // set Redux state to selectedKlass
     toggleModal(true);
+  }
+
+  // Reformat from FullCalendar specs to DB specs for klass
+  function reFormatKlass(klass) {
+    klass.name = klass.title;
+    klass.startTime = klass.start.toString();
+    klass.endTime = klass.end.toString();
+
+    delete klass.title;
+    delete klass.start;
+    delete klass.end;
+
+    return klass;
   }
 
   function closeModal() {
@@ -78,10 +96,9 @@ const KlassDashboard = props => {
           Add New Class
         </Button>
 
-        {showForm ? <CreateKlassForm /> : null}
+        {showForm ? <CreateKlassForm action="create" /> : null}
         {showKlassModal ? 
           <KlassModal 
-            klassId={selectedKlass.selectedKlass.id} 
             onClose={closeModal} 
             open={showKlassModal}
           /> : null}
@@ -96,4 +113,7 @@ const KlassDashboard = props => {
   );
 }
 
-export default graphql(fetchKlassesQuery, { options: props => ({variables: { id: 1 }}) })(KlassDashboard);
+export default compose(
+  graphql(fetchKlassesQuery, { options: props => ({variables: { id: 1 }}) }),
+  connect(null, { selectKlass })
+)(KlassDashboard);

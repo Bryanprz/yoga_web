@@ -1,10 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 
 // Queries & Mutations
-import fetchTeachersStudents from '../../queries/fetchTeachersStudents';
 import fetchKlassesQuery from '../../queries/fetchKlasses';
+import fetchTeachersStudents from '../../queries/fetchTeachersStudents';
 import addKlassMutation from '../../mutations/createKlass';
+import editKlassMutation from '../../mutations/editKlass';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -47,21 +49,23 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CreateKlassForm = props => {
+// TODO make form mutate correctly based on action from prop
+// TODO set options for all students/teachers from studio
+const CreateKlassForm = ({action, selectedKlass, mutate}) => {
   const classes = useStyles();
-  const [values, setValues] = React.useState({
+
+  const [values, setValues] = React.useState(action === 'create' ? {
     name: '',
     description: '',
     startTime: '',
     endTime: '',
     teachers: [],
     students: []
-  });
+  } : selectedKlass);
+
   const [successMessage, toggleSuccessMessage] = React.useState({
     showSuccessMessage: false
   });
-
-  if (props.data.loading) { return <h3>Loading...</h3> };
 
   function renderTeacherMenuItem(teacher) {
     return <MenuItem name="teacher" value={teacher} key={teacher.id}>{ teacher.name }</MenuItem>
@@ -81,7 +85,7 @@ const CreateKlassForm = props => {
     var formatTeacherParams = teachers.map((t) => ({id: t.id, name: t.name}));
     var formatStudentParams = students.map((s) => ({id: s.id, name: s.name}));
 
-    props.mutate({
+    mutate({
       refetchQueries: [{ query: fetchKlassesQuery, variables: { id: 1 } }],
       variables: {
         klass: {
@@ -115,8 +119,17 @@ const CreateKlassForm = props => {
     setValues({ ...values, [name]: event.target.value });
   }
 
-  var teachers = props.data.studio.teachers;
-  var students = props.data.studio.students;
+  //const allStudioStudents = data.studio.students;
+  //const allStudioTeachers = data.studio.teachers;
+  const allStudioStudents = [];
+  const allStudioTeachers = [];
+
+  var formattedStartTime = '';
+  var formattedEndTime = '';
+  if (action === 'edit') {
+    formattedStartTime = new Date(values.startTime).toISOString().split('Z')[0]
+    formattedEndTime = new Date(values.endTime).toISOString().split('Z')[0]
+  } 
 
   return (
     <form id="create-class-form" onSubmit={submitForm} className={classes.root}>
@@ -150,7 +163,7 @@ const CreateKlassForm = props => {
               ))}
             </div>
           )}>
-          {students.map(student => renderStudentMenuItem(student))}
+          {allStudioStudents.map(student => renderStudentMenuItem(student))}
         </Select>
       </FormControl>
 
@@ -167,13 +180,13 @@ const CreateKlassForm = props => {
               ))}
             </div>
           )}>
-            {teachers.map(teacher => renderTeacherMenuItem(teacher))}
+            {allStudioTeachers.map(teacher => renderTeacherMenuItem(teacher))}
         </Select>
       </FormControl>
 
       <TextField 
         label="Start Time" 
-        value={values.startTime} 
+        value={formattedStartTime}
         onChange={handleChange('startTime')}
         className={classes.textField} 
         type="datetime-local" 
@@ -182,7 +195,7 @@ const CreateKlassForm = props => {
 
       <TextField 
         label="End Time" 
-        value={values.endTime} 
+        value={formattedEndTime}
         onChange={handleChange('endTime')}
         className={classes.textField} 
         type="datetime-local" 
@@ -194,8 +207,13 @@ const CreateKlassForm = props => {
     </form>
   );
 }
+
+const mapStateToProps = ({ selectedKlass }) => { return { selectedKlass } };
  
+// TODO change hard-coded studio id in query to var
 export default compose(
-  graphql(fetchTeachersStudents, { options: props => ({variables: { id: 1 }}) }),
+  connect(mapStateToProps),
+  graphql(fetchTeachersStudents, { options: props => ({ variables: { id: 1 } }) }),
   graphql(addKlassMutation),
+  graphql(editKlassMutation)
 )(CreateKlassForm);

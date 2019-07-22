@@ -1,5 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { graphql, compose } from 'react-apollo';
 import PropTypes from 'prop-types';
+
+// Material UI
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -9,13 +13,11 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import { graphql, compose } from 'react-apollo';
 
 // My Components
 import EditKlassForm from '../KlassForm/EditKlassForm';
 
 // Queries & Mutations
-import fetchKlassQuery from '../../queries/fetchKlass';
 import fetchKlassesQuery from '../../queries/fetchKlasses';
 import deleteKlassMutation from '../../mutations/deleteKlass';
 
@@ -90,19 +92,14 @@ class KlassModal extends React.Component {
   }
 
   render() {
-    if (this.props.data.loading) { return null };
+    const klass = this.props.selectedKlass;
+    var { teachers, students } = klass;
 
-    const klass = this.props.data.klass;
+    const teachersEmpty = teachers.every(t => t.name === '');
+    teachers = teachers.map(t => t.name).join(', ');
 
-    let teachers = [];
-    klass.teachers.forEach(teacher => teachers.push(teacher.name));
-    const teachersEmpty = teachers.every(t => t === '');
-    teachers = teachers.join(', ');
-
-    let students = [];
-    klass.students.forEach(student => students.push(student.name));
-    const studentsEmpty = students.every(s => s === '');
-    students = students.join(', ');
+    const studentsEmpty = students.every(s => s.name === '');
+    students = students.map(s => s.name).join(', ');
 
     return (
       <div>
@@ -113,12 +110,12 @@ class KlassModal extends React.Component {
           fullWidth={true}
         >
           <DialogTitle id="customized-dialog-title" onClose={this.props.onClose}>
-            { klass.name }
+            { klass.name}
           </DialogTitle>
           <DialogContent dividers>
             {this.state.showDeleteConfirmation ? this.renderDeleteConfirmation() : null}
             {this.state.showDeleteSuccess ? "This class has been deleted." : null}
-            {this.state.showForm ? <EditKlassForm id={klass.id} /> : null}
+            {this.state.showForm ? <EditKlassForm /> : null}
             <Typography gutterBottom>
               { klass.description }
             </Typography>
@@ -148,10 +145,11 @@ class KlassModal extends React.Component {
 }
 
 KlassModal.propTypes = {
-  klassId: PropTypes.string.isRequired
 }
 
+const mapStateToProps = ({selectedKlass}) => { return { selectedKlass } };
+
 export default compose(
-  graphql(fetchKlassQuery, { options: props => ({variables: { id: props.klassId }}) }),
+  connect(mapStateToProps),
   graphql(deleteKlassMutation)
 )(KlassModal);
