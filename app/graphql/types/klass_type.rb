@@ -15,7 +15,7 @@ module Types
   class KlassType < GraphQL::Schema::Object
     description 'Represents a yoga class in the system. Spelled with K to avoid clashes with Ruby/JS Class'
 
-    field :id, ID, null: false
+    field :id, ID, null: true # used for creating new Klasses; transaction sometimes does not return ID immediately to front end
     field :studio_id, ID, null: false
     field :name, String, null: true
     field :description, String, null: true

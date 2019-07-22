@@ -54,7 +54,7 @@ const CreateKlassForm = props => {
     description: '',
     startTime: '',
     endTime: '',
-    teacher: [],
+    teachers: [],
     students: []
   });
   const [successMessage, toggleSuccessMessage] = React.useState({
@@ -77,7 +77,9 @@ const CreateKlassForm = props => {
 
   function submitForm(e) {
     e.preventDefault();
-    const { name, description, startTime, endTime, teacher } = values;
+    var { name, description, startTime, endTime, teachers, students } = values;
+    var formatTeacherParams = teachers.map((t) => ({id: t.id, name: t.name}));
+    var formatStudentParams = students.map((s) => ({id: s.id, name: s.name}));
 
     props.mutate({
       refetchQueries: [{ query: fetchKlassesQuery, variables: { id: 1 } }],
@@ -89,12 +91,24 @@ const CreateKlassForm = props => {
           endTime,
           studioId: '1'
         },
-        teacher: {
-          name: teacher.name,
-          id: teacher.id
-        }
+        teachers: formatTeacherParams,
+        students: formatStudentParams 
       }
-    }).then(() => toggleSuccessMessage({ showSuccessMessage: true }));
+    }).then(() => {
+        resetForm();
+        toggleSuccessMessage({ showSuccessMessage: true });
+    });
+  }
+
+  function resetForm() {
+    setValues({
+      name: '',
+      description: '',
+      startTime: '',
+      endTime: '',
+      teachers: [],
+      students: []
+    });
   }
 
   const handleChange = name => event => {
@@ -105,7 +119,7 @@ const CreateKlassForm = props => {
   var students = props.data.studio.students;
 
   return (
-    <form onSubmit={submitForm} className={classes.root}>
+    <form id="create-class-form" onSubmit={submitForm} className={classes.root}>
       { successMessage.showSuccessMessage ? renderSuccessMessage() : null }
       <TextField 
         name="name" 
@@ -144,8 +158,8 @@ const CreateKlassForm = props => {
         <InputLabel>Teacher(s)</InputLabel>
         <Select 
           multiple
-          value={values.teacher} 
-          onChange={handleChange('teacher')}
+          value={values.teachers} 
+          onChange={handleChange('teachers')}
           renderValue={selected => (
             <div className={classes.chips}>
               {selected.map(teacher => (

@@ -29,7 +29,7 @@ const KlassDashboard = props => {
   const [selectedKlass, selectKlass] = useState({});
   const classes = useStyles();
 
-  if (props.data.loading) { return <h3>Loading...</h3> };
+  if (props.data.loading || !props.data.studio) { return <h3>Loading...</h3> };
 
   var klassEvents = [];
 
